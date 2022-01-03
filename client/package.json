@@ -1,0 +1,29 @@
+{
+  "name": "yumi-recipe-creator",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "needle": "^3.0.0",
+    "primeicons": "^5.0.0",
+    "primevue": "^3.10.0",
+    "typescript": "^4.4.4",
+    "vue": "^3.2.16",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.6",
+    "@vitejs/plugin-vue": "^1.9.3",
+    "autoprefixer": "^10.3.7",
+    "postcss": "^8.3.9",
+    "prettier": "^2.5.1",
+    "sass": "^1.45.1",
+    "tailwindcss": "^2.2.17",
+    "vite": "^2.6.4"
+  }
+}
