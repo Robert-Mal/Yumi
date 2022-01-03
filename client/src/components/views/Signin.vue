@@ -159,12 +159,14 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import UserService from '../../services/users.service';
-import axios from 'axios';
+import { useToast } from "vue-toastification";
 
 
 export default defineComponent({
   setup() {
     const router = useRouter();
+
+    const toast = useToast();
 
     const fullName = ref('');
     const email = ref('');
@@ -178,24 +180,21 @@ export default defineComponent({
       password: password.value ,
     }
 
-    // UserService.addNewUser(user).then((response) => {
-    //   router.push('/login');
-    // }).catch((error) => {
-    //     console.log(error);
-    // })
-    axios({
-      method: "POST",
-      data: {
-        email: email.value,
-        fullName: fullName.value,
-        password: password.value,
-      },
-      url: "http://localhost:5000/register",
-    }).then((res) => {
+    UserService.register(user).then(res => {
       if (res.data != "User Already Exists") {
         router.push('/login')
+      } else {
+        toast.clear();
+        toast.error("User Already Exists", {
+          timeout: 2000
+        });
       }
-    });
+    }).catch(error => {
+      toast.clear();
+        toast.error(error, {
+          timeout: 2000
+        });
+    })
     };
 
     return { fullName, email, password, createAccount };

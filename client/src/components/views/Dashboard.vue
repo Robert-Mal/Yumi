@@ -84,21 +84,34 @@
               />
             </svg>
           </div>
-          <div>
-            <img src="../../assets/images/profile-pic.png" alt="profile pic" />
-            <p>Trill Pem</p>
+          <div class="profile">
+            <img class="profile__pic" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/271deea8-e28c-41a3-aaf5-2913f5f48be6/de7834s-6515bd40-8b2c-4dc6-a843-5ac1a95a8b55.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzI3MWRlZWE4LWUyOGMtNDFhMy1hYWY1LTI5MTNmNWY0OGJlNlwvZGU3ODM0cy02NTE1YmQ0MC04YjJjLTRkYzYtYTg0My01YWMxYTk1YThiNTUuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.BopkDn1ptIwbmcKHdAOlYHyAOOACXW0Zfgbs0-6BY-E" alt="profile img">
+            <p>{{profileName}}</p>
             <svg
+              :class="{rotate: isOpen}"
               width="24"
               height="24"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              @click="toggle"
             >
               <path
                 d="M12.0002 15.5C11.8686 15.5008 11.7381 15.4755 11.6163 15.4258C11.4944 15.376 11.3836 15.3027 11.2902 15.21L7.29019 11.21C7.19695 11.1168 7.12299 11.0061 7.07253 10.8843C7.02207 10.7624 6.99609 10.6319 6.99609 10.5C6.99609 10.3681 7.02207 10.2376 7.07253 10.1158C7.12299 9.99393 7.19695 9.88324 7.29019 9.79C7.38342 9.69676 7.49411 9.6228 7.61594 9.57234C7.73776 9.52188 7.86833 9.49591 8.00019 9.49591C8.13204 9.49591 8.26261 9.52188 8.38444 9.57234C8.50626 9.6228 8.61695 9.69676 8.71019 9.79L12.0002 13.1L15.3002 9.92C15.3922 9.81771 15.5043 9.7355 15.6295 9.67852C15.7547 9.62153 15.8903 9.59099 16.0279 9.58881C16.1654 9.58664 16.302 9.61286 16.4289 9.66585C16.5559 9.71884 16.6705 9.79746 16.7657 9.89678C16.8609 9.99611 16.9346 10.114 16.9821 10.2431C17.0297 10.3722 17.0501 10.5097 17.042 10.647C17.034 10.7844 16.9977 10.9186 16.9355 11.0413C16.8732 11.1639 16.7863 11.2724 16.6802 11.36L12.6802 15.22C12.4973 15.3963 12.2542 15.4964 12.0002 15.5Z"
                 fill="#232321"
               />
             </svg>
+            <transition>
+              <div class="profile__settings" v-if="isOpen">
+                <p class="profile__label">profile settings</p>
+                <button @click="logout" class="profile__btn">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.9531 14.2969H15.58C15.4863 14.2969 15.3984 14.3379 15.3398 14.4102C15.2031 14.5762 15.0566 14.7364 14.9023 14.8887C14.2712 15.5204 13.5237 16.0238 12.7011 16.3711C11.8489 16.7311 10.9329 16.9157 10.0078 16.9141C9.07221 16.9141 8.16596 16.7305 7.3144 16.3711C6.4918 16.0238 5.7443 15.5204 5.11323 14.8887C4.48103 14.2591 3.97693 13.5129 3.62885 12.6914C3.26752 11.8399 3.08588 10.9356 3.08588 10C3.08588 9.06448 3.26948 8.16019 3.62885 7.30862C3.97651 6.48636 4.47651 5.74612 5.11323 5.11136C5.74995 4.47659 6.49018 3.97659 7.3144 3.62894C8.16596 3.26956 9.07221 3.08597 10.0078 3.08597C10.9433 3.08597 11.8496 3.26761 12.7011 3.62894C13.5253 3.97659 14.2656 4.47659 14.9023 5.11136C15.0566 5.26565 15.2011 5.42581 15.3398 5.58987C15.3984 5.66214 15.4882 5.70315 15.58 5.70315H16.9531C17.0761 5.70315 17.1523 5.56644 17.0839 5.46292C15.5859 3.1348 12.9648 1.59378 9.98627 1.60159C5.30659 1.61331 1.55463 5.41214 1.60151 10.086C1.64838 14.6856 5.39448 18.3985 10.0078 18.3985C12.9785 18.3985 15.5878 16.8594 17.0839 14.5371C17.1503 14.4336 17.0761 14.2969 16.9531 14.2969ZM18.6894 9.87698L15.9179 7.68948C15.8144 7.60745 15.664 7.68167 15.664 7.81253V9.2969H9.5312C9.44526 9.2969 9.37495 9.36722 9.37495 9.45315V10.5469C9.37495 10.6328 9.44526 10.7032 9.5312 10.7032H15.664V12.1875C15.664 12.3184 15.8164 12.3926 15.9179 12.3106L18.6894 10.1231C18.7081 10.1085 18.7232 10.0898 18.7336 10.0685C18.744 10.0471 18.7493 10.0237 18.7493 10C18.7493 9.97632 18.744 9.95291 18.7336 9.93159C18.7232 9.91027 18.7081 9.8916 18.6894 9.87698Z" fill="white"/>
+                  </svg>
+                  logout
+                </button>
+              </div>
+            </transition>
           </div>
         </div>
       </div>
@@ -217,6 +230,36 @@
   </section>
 </template>
 
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+import { useStore } from 'vuex';
+import UserService from '../../services/users.service';
+import { useRouter } from 'vue-router';
+
+export default defineComponent({
+  setup() {
+    const store = useStore();
+    const isOpen = ref(false);
+    const profileName = store.getters.getUser.fullName;
+    const router = useRouter();
+    
+    const toggle = (e: Event): void => {
+      isOpen.value = !isOpen.value
+    }
+
+    const logout = () => {
+      UserService.logout().then(res => {
+        store.commit('setUser', null);
+        router.push('/')
+      });
+    }
+
+    return {toggle, isOpen, logout, profileName}
+  },
+})
+</script>
+
+
 <style lang="scss" scoped>
 .header {
   display: flex;
@@ -325,7 +368,6 @@ main {
 }
 
 .router-link {
-  //   border: 2px solid red;
   display: block;
   padding: 10px 20px;
 
@@ -339,6 +381,99 @@ main {
   color: #fff;
   svg path {
     fill: #fff;
+  }
+}
+
+.profile {
+  position: relative;
+
+  &__pic {
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgb(198, 198, 198);
+    border-radius: 50%;
+    padding: 3px;
+  }
+
+  &__settings {
+    position: absolute;
+    width: 300px;
+    right: 0;
+    top:120%;
+    z-index: 10;
+    padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+  }
+
+  &__label {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    padding-bottom: 10px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      top: 100%;
+      left: 0;
+      background: rgba(0, 0, 0, 0.3);
+
+    }
+  }
+
+  &__btn {
+    background: #f63e76;
+    width: 100%;
+    padding: 7px 12px;
+    color: #fff;
+    border-radius: 5px;
+
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    &:hover {
+      background: darken(#f63e76, 8%);
+    }
+  }
+
+  .rotate {
+    transform: rotateX(180deg);
+  }
+
+  .v-enter-from {
+    opacity: 0;
+    transform: translateY(-15px);
+    }
+
+  .v-enter-active {
+    transition: all 0.4s ease-out;
+  }
+
+  .v-enter-to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .v-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .v-leave-active {
+    transition: all 0.4s ease-in;
+  }
+
+  .v-leave-to {
+    opacity: 0;
+    transform: translateY(-15px);
   }
 }
 </style>

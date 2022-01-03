@@ -13,21 +13,31 @@ class UserService {
     return axios.post(`${URL}/register`, payload, options);
   }
 
+  register(payload) {
+    return axios({
+      method: 'POST',
+      data: {
+        email: payload.email,
+        fullName: payload.fullName,
+        password: payload.password,
+      },
+      url: 'http://localhost:5000/register',
+    });
+  }
+
   login(payload) {
-    return axios.post(`${URL}/signin`, payload, options);
+    return axios({
+      method: 'POST',
+      data: {
+        username: payload.email,
+        password: payload.password,
+      },
+      url: 'http://localhost:5000/signin',
+    });
   }
 
   logout() {
-    axios({
-      method: 'GET',
-      url: 'http://localhost:5000/logout',
-    }).then((res) => {
-      store.commit('setUser', null);
-      store.commit('setId', null);
-      store.commit('setEmail', null);
-      store.commit('setFullName', null);
-      router.push('/login');
-    });
+    return axios.post(`${URL}/logout`);
   }
 }
 export default new UserService();

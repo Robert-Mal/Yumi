@@ -75,16 +75,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  //sprawdzic
-  if (to.fullPath === 'dashboard') {
+  if (to.fullPath === '/dashboard' || to.fullPath === '/recipe' || to.fullPath === 'dashboard/recipes') {
     if (store.getters.getUser == null) {
-      router.push('/login')
+      next('/login')
     }
+  } else {
+    next(true);
   }
-  if (to.fullPath === '/recipe/recipes') {
-    router.push('/dashboard');
-  }
-  next(true);
 });
 
 export default router;

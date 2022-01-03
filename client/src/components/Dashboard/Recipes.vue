@@ -194,6 +194,7 @@ import { useRouter } from 'vue-router';
 import RecipesService from '../../services/recipes.service';
 import Dialog from 'primevue/dialog';
 import { useStore } from 'vuex';
+import { useToast } from "vue-toastification";
 
 interface Recipe {
   _id: string;
@@ -214,6 +215,8 @@ export default defineComponent({
     const router = useRouter();
 
     const store = useStore()
+
+    const toast = useToast();
 
     const recipes: Ref<Array<Recipe>> = ref([]);
 
@@ -242,9 +245,16 @@ export default defineComponent({
       if(!recipes) return 
       const currentRecipeIndex = recipes.value.findIndex((el:Recipe) => el._id === recipeId )
       RecipesService.addFavourite(recipes.value[currentRecipeIndex]._id, !currentValue).then((response:any) => {
+        toast.clear();
+        toast.success("Favourite toggled succesfully", {
+          timeout: 2000
+        });
         recipes.value[currentRecipeIndex].favourite = response.data.favourite;
       }).catch((err) => {
-        console.log(err)
+        toast.clear();
+        toast.error("Error: Favourite not toggled", {
+          timeout: 2000
+        });
       })
     };
 
@@ -280,10 +290,16 @@ export default defineComponent({
       };
 
       RecipesService.addRecipe(store.getters.getUser._id, newRecipe).then((response:any) => {
-        console.log(response)
+        toast.clear();
+        toast.success("Recipe added", {
+          timeout: 2000
+        });
         getRecipes();
       }).catch((err) => {
-        console.log(err)
+        toast.clear();
+        toast.error("Error: Recipe not added", {
+          timeout: 2000
+        });
       })
     };
 

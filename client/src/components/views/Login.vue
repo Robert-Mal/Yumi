@@ -128,8 +128,8 @@
 import { defineComponent, ref } from 'vue';
 import UserService from '../../services/users.service';
 import { useStore } from 'vuex';
-import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useToast } from "vue-toastification";
 
 export default defineComponent({
   setup() {
@@ -139,44 +139,34 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter();
 
-    const user = {
-      email,
-      password,
-    }
+    const toast = useToast();
 
     const triggerLogin = (): void => {
 
-    // axios.post("localhost:5000/sigin", {email, password})
-    //   .then(response => {console.log('succesful login'); store.dispatch('setUserId', response.data.user.userId); router.push(`/dashboard`);})
-    //   .catch(error => console.log(error))
-    axios({
-      method: "POST",
-      data: {
-        username: email.value,
-        password: password.value,
-      },
-      url: "http://localhost:5000/signin",
-    }).then((res) => {
+      if (!email.value || !password.value){
+        return;
+      }
+
+    UserService.login({email: email.value, password: password.value}).then((res:any) => {
       if (res.data != "No User Exists") {
         store.commit('setUser', res.data);
         router.push("/dashboard");
       } else {
-        // toast user not found
-        console.log('user not found')
+        toast.clear();
+        toast.error("No User Exists", {
+          timeout: 2000
+        });
       }
+    }).catch(error => {
+      toast.clear();
+        toast.error(error, {
+          timeout: 2000
+        });
     });
-
-    // UserService.login(user).then((response) => {
-    //   console.log(response.data)
-    //   store.dispatch('setUserId', response.data.user.userId);
-    //   console.log(response);
-    //   }).catch((error) => {
-    //     console.log(error);
-    //   })
     };
     
 
-    return { email, password, triggerLogin };
+    return { email, password, triggerLogin, toast };
   },
 });
 </script>

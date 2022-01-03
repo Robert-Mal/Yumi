@@ -36,19 +36,9 @@ router.post("/register", (req, res) => {
   });
 });
 
-const isAuth = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    res
-      .status(401)
-      .json({ msg: "You are not authorized to view this resource" });
-  }
-};
-
-router.get("/logout", (req, res, next) => {
+router.post("/logout", (req, res, next) => {
   req.logout();
-  // res.redirect("/");
+  res.send("");
 });
 
 module.exports = router;

@@ -184,6 +184,7 @@
 import { defineComponent, ref, Ref, onBeforeMount, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Dialog from 'primevue/dialog';
+import { useToast } from "vue-toastification";
 
 import RecipesService from '../../services/recipes.service';
 
@@ -207,6 +208,8 @@ export default defineComponent({
     const route = useRoute();
     const recipeId = route.params.recipeId.slice(1);
     const recipe = ref();
+
+    const toast = useToast();
 
     let name = ref('');
     let desc = ref('');
@@ -245,9 +248,16 @@ export default defineComponent({
 
     const deleteRecipe = async (recipeId:string) => {
       await RecipesService.deleteRecipe(recipeId).then((response:any) => {
+        toast.clear();
+        toast.success("Recipe deleted", {
+          timeout: 2000
+        });
         router.push(`/dashboard`);
       }).catch((err:any) => {
-        console.log(err);
+        toast.clear();
+        toast.error("Error: Recipe not deleted", {
+          timeout: 2000
+        });
       })
     };
 
@@ -269,10 +279,16 @@ export default defineComponent({
       }
 
       await RecipesService.updateRecipe(recipeId, newRecipe).then((response:any) => {
-        console.log('success');
+        toast.clear();
+        toast.success("Recipe modified", {
+          timeout: 2000
+        });
         initRecipe();
       }).catch((err:any) => {
-        console.log('usun error');
+        toast.clear();
+        toast.error("Error: Recipe not modified", {
+          timeout: 2000
+        });
       })
 
     };
