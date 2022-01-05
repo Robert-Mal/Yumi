@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-if="recipe">
     <img :src="recipe.imageURL" alt="img" />
     <div class="box">
       <p class="name font-mulish name-main">
@@ -225,6 +225,8 @@ export default defineComponent({
        await RecipesService.getRecipeById(recipeId).then((response:any) => {
         
         recipe.value = response.data;
+
+        console.log(recipe.value)
 
         let tmpInstructions = recipe.value.instructions.map(
           (el:string, i:number) => `${i + 1}. ${el} \n`

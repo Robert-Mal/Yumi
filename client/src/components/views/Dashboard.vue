@@ -122,6 +122,7 @@
           <router-link
             to="recipes"
             class="router-link font-mulish text-grayMedium"
+            :class="{routeractive: isRecipesRouteActive}"
             ><svg
               width="20"
               height="20"
@@ -231,17 +232,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useStore } from 'vuex';
 import UserService from '../../services/users.service';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   setup() {
     const store = useStore();
     const isOpen = ref(false);
-    const profileName = store.getters.getUser.fullName;
+    const localUser = localStorage.getItem('user')
+    const profileName = store.getters.getUser?.fullName || JSON.parse(localUser).fullName;
     const router = useRouter();
+    const route = useRoute()
     
     const toggle = (e: Event): void => {
       isOpen.value = !isOpen.value
@@ -254,7 +257,9 @@ export default defineComponent({
       });
     }
 
-    return {toggle, isOpen, logout, profileName}
+    const isRecipesRouteActive = computed(() => route.path.match(/:/))
+
+    return {toggle, isOpen, logout, profileName, isRecipesRouteActive}
   },
 })
 </script>
@@ -362,7 +367,7 @@ section {
 main {
   flex: 6;
   border-radius: 15px;
-  padding: 0 20px;
+  padding: 0 15px !important;
   background: #fff;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
 }
@@ -376,7 +381,7 @@ main {
   gap: 10px;
 }
 
-.router-link-active {
+.router-link-active, .routeractive {
   background: #f63e76;
   color: #fff;
   svg path {

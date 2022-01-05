@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useStore } from 'vuex';
+import store from '../store';
 
 import Home from '../components/views/Home.vue';
 import About from '../components/views/About.vue';
@@ -13,8 +13,6 @@ import Recipes from '../components/Dashboard/Recipes.vue';
 import Favorites from '../components/Dashboard/Favorites.vue';
 import Food from '../components/Dashboard/Food.vue';
 import Import from '../components/Dashboard/Import.vue';
-
-const store = useStore()
 
 const routes = [
   {
@@ -64,7 +62,7 @@ const routes = [
         path: 'import',
         component: Import,
       },
-      { path: '/recipe/:recipeId', component: Recipe, props: true },
+      { path: ':recipeId', component: Recipe, props: true },
     ],
   },
 ];
@@ -74,13 +72,22 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, _, next) => {
-  if (to.fullPath === '/dashboard' || to.fullPath === '/recipe' || to.fullPath === 'dashboard/recipes') {
-    if (store.getters.getUser == null) {
-      next('/login')
+router.beforeEach((to, from, next) => {
+  if (to.fullPath === '/dashboard' || to.fullPath.match(/recipe/) || to.fullPath === '/dashboard/recipes') {
+    if(!store.state.user && !localStorage.getItem('user')) {
+      next('/')
+    }
+    else {
+      if(!store.state.user) {
+        const localUser = localStorage.getItem('user')
+        if (localUser) {
+          store.commit('setUser', JSON.parse(localUser));
+        }
+      }
+      next(true)
     }
   } else {
-    next(true);
+    next(true)
   }
 });
 

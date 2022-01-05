@@ -150,6 +150,7 @@ export default defineComponent({
     UserService.login({email: email.value, password: password.value}).then((res:any) => {
       if (res.data != "No User Exists") {
         store.commit('setUser', res.data);
+        localStorage.setItem('user', JSON.stringify(res.data));
         router.push("/dashboard");
       } else {
         toast.clear();

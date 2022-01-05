@@ -85,8 +85,12 @@ export default defineComponent({
 
     const recipes: Ref<Array<Recipe>> = ref([]);
 
+
+    const localUser = localStorage.getItem('user')
+    const userId = store.getters.getUser?._id || JSON.parse(localUser)._id;
+
     const getRecipes = async () => {
-      await RecipesService.getFavouriteRecipes(store.getters.getUser._id).then((response:any) => {
+      await RecipesService.getFavouriteRecipes(userId).then((response:any) => {
       recipes.value = response.data;
       }).catch((err) => {
         console.log(err)
@@ -109,7 +113,7 @@ export default defineComponent({
     };
 
     const openRecipe = (recipeId: number): void => {
-      router.push(`/recipe/:${recipeId}`);
+      router.push(`/dashboard/:${recipeId}`);
     };
 
 

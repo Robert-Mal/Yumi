@@ -228,8 +228,11 @@ export default defineComponent({
     const instruction = ref('');
     const ingredients = ref('');
 
+    const localUser = localStorage.getItem('user')
+    const userId = store.getters.getUser?._id || JSON.parse(localUser)._id;
+
     const getRecipes = async () => {
-      await RecipesService.getRecipes(store.getters.getUser._id).then((response:any) => {
+      await RecipesService.getRecipes(userId).then((response:any) => {
       recipes.value = response.data;
       }).catch((err) => {
         console.log(err)
@@ -261,7 +264,7 @@ export default defineComponent({
     const addRecipe = () => (display.value = true);
 
     const openRecipe = (recipeId: number): void => {
-      router.push(`/recipe/:${recipeId}`);
+      router.push(`/dashboard/:${recipeId}`);
     };
 
     const createRecipe = (): void => {
@@ -323,7 +326,7 @@ export default defineComponent({
 
 <style lang="scss">
 .top-box {
-  padding: 10px;
+  padding: 0 20px;
   margin-top: 10px;
   margin-bottom: 20px;
   display: flex;
@@ -484,6 +487,7 @@ form {
 .recipes {
   &__cards {
     margin-top: 15px;
+    padding: 0 10px;
     display: flex;
     gap: 30px;
   }
