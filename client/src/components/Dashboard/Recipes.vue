@@ -288,7 +288,7 @@ export default defineComponent({
         imageURL: img.value,
         tags: [...tags.value],
         favourite: false,
-        instruction: inst,
+        instructions: inst,
         ingredients: ingr,
       };
 

@@ -14,7 +14,7 @@
       <div class="instr">
         <p class="name font-mulish">instructions</p>
         <ol>
-          <li v-for="instr in recipe.instructions" :key="instr">{{ instr }}xd</li>
+          <li v-for="instr in recipe.instructions" :key="instr">{{ instr }}</li>
         </ol>
       </div>
     </div>
@@ -226,7 +226,7 @@ export default defineComponent({
         
         recipe.value = response.data;
 
-        console.log(recipe.value)
+        console.log(recipe.value.instructions)
 
         let tmpInstructions = recipe.value.instructions.map(
           (el:string, i:number) => `${i + 1}. ${el} \n`
@@ -236,7 +236,7 @@ export default defineComponent({
         desc.value = recipe.value.description;
         tags.value = recipe.value.tags;
         imageURL.value = recipe.value.imageURL;
-        instructions.value =  tmpInstructions;
+        instructions.value =  tmpInstructions.join().replace(/,/g,'');
         ingredients.value =  recipe.value.ingredients
 
       }).catch((err) => {
@@ -270,6 +270,18 @@ export default defineComponent({
     const modifyRecipe = async () => {
       display.value = false;
 
+      const inst = instructions.value
+        .split('.')
+        .map((el) => {
+          return el
+            .replace(/[0-9]/g, '')
+            .replace(/(\r\n|\n|\r)/gm, '')
+            .trim();
+        })
+        .filter((el) => el);
+
+      console.log(inst)
+
       const newRecipe = {
         name: name.value,
         description: desc.value,
@@ -277,7 +289,7 @@ export default defineComponent({
         tags: tags.value,
         favourite: recipe.value.favourite,
         ingredients: ingredients.value,
-        instructions: instructions.value,
+        instructions: inst,
       }
 
       await RecipesService.updateRecipe(recipeId, newRecipe).then((response:any) => {
