@@ -50,7 +50,7 @@
             <label for="password" class="font-mulish">password</label>
             <input
               v-model="password"
-              type="text"
+              type="password"
               name="password"
               id="password"
               placeholder="enter your password"

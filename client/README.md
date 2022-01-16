@@ -1,7 +1,22 @@
-# Vue 3 + Vite
+# Technologie obiektowe i komponentowe II
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Projekt wykonany w ramach przedmiotu Technologie obiektowe i komponentowe II 
 
-## Recommended IDE Setup
+## Authors
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+> Jakub Serwin<br /> [![Github](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/jakubserwin)
+
+> Robert Małek<br /> [![Github](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/Robert-Mal)
+
+## Goals 
+
+Celem projektu jest stworzenie aplikacji w której użytkownicy będą mogli
+dodawać, przechowywać oraz modyfikować stworzone przez siebie przepisy. Po
+wejściu na naszą stronę internetową zawierającą zaprojektowany przez nas
+landing page użytkownicy będą w pierwszej kolejności poproszeni o założenie
+konta które jest wymagane do korzystania z naszej aplikacji. Po utworzeniu
+takiego konta zostaną przeniesieni do dashbordu w którym to dzięki intuicyjnemu
+interfejsowi będą mogli w pełni korzystać z wszystkich funkcji oferowanych przez
+yumi. Wszystkie przepisy są przechowywane w naszej bazie danych dzięki
+czemu nasi użytkownicy będą mieli do nich dostęp z każdego zakątka świata i
+urządzenia.

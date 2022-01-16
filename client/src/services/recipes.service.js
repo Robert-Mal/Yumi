@@ -8,7 +8,17 @@ const options = {
   },
 };
 
+/**
+ * Recipes related API
+ * This class is responsible for making calls to server via axios for recipes related stuff.
+ */
+
 class RecipesService {
+  /**
+   * getRecipes - get all recipes related for provided user
+   * @param {string} userId current user id
+   * @return {promise}
+   */
   getRecipes(userId) {
     return axios.post(
       `${URL}/api/recipe-read`,
@@ -18,7 +28,11 @@ class RecipesService {
       options
     );
   }
-
+  /**
+   * getRecipeById - get recipe details by it's id
+   * @param {string} recipeId
+   * @return {promise}
+   */
   getRecipeById(recipeId) {
     return axios.post(
       `${URL}/api/recipe-by-id`,
@@ -29,6 +43,12 @@ class RecipesService {
     );
   }
 
+  /**
+   * addFavourite -add recipe to favourites
+   * @param {string} _id - recipe id
+   * @param {boolean} favourite - is recipe currently favourite
+   * @return {promise}
+   */
   addFavourite(_id, favourite) {
     const payload = {
       _id,
@@ -37,6 +57,12 @@ class RecipesService {
     return axios.put(`${URL}/api/recipe-update`, payload);
   }
 
+  /**
+   * updateRecipe - modify existing recipe
+   * @param {string} recipeId - chosen recipe id
+   * @param {object} recipe - full recipe object
+   * @return {promise}
+   */
   updateRecipe(recipeId, recipe) {
     const payload = {
       _id: recipeId,
@@ -45,6 +71,11 @@ class RecipesService {
     return axios.put(`${URL}/api/recipe-update`, payload);
   }
 
+  /**
+   * deleteRecipe - delete existing recipe
+   * @param {string} _id - chosen recipe id
+   * @return {promise}
+   */
   deleteRecipe(_id) {
     return fetch(`${URL}/api/recipe-delete`, {
       method: 'DELETE',
@@ -55,6 +86,12 @@ class RecipesService {
     });
   }
 
+  /**
+   * addRecipe - add new recipe
+   * @param {string} userId - user id for which we are adding new recipe
+   * @param {object} recipe - full recipe object
+   * @return {promise}
+   */
   addRecipe(userId, recipe) {
     return axios.post(
       `${URL}/api/recipe-create`,
@@ -66,6 +103,11 @@ class RecipesService {
     );
   }
 
+  /**
+   * getFavouriteRecipes
+   * @param {string} userId - user id for which we are getting fav recipes
+   * @return {promise}
+   */
   getFavouriteRecipes(userId) {
     return axios.post(
       `${URL}/api/favourite-read`,

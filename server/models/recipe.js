@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+/**
+ * recipeSchema - mongoose schema for the recipe object
+ */
 const recipeSchema = mongoose.Schema(
   {
     _userId: mongoose.Schema.Types.ObjectId,

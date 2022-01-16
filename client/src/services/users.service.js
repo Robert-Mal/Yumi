@@ -2,17 +2,17 @@ import axios from 'axios';
 
 const URL = 'http://127.0.0.1:5000';
 
-const options = {
-  headers: {
-    'Content-Type': 'application/json',
-  },
-};
+/**
+ * User related API
+ * This class is responsible for making calls to server via axios for user related stuff.
+ */
 
 class UserService {
-  addNewUser(payload) {
-    return axios.post(`${URL}/register`, payload, options);
-  }
-
+  /**
+   * Add new User - register
+   * @param {object} payload which insludes email, fullName and password
+   * @return {promise}
+   */
   register(payload) {
     return axios({
       method: 'POST',
@@ -25,6 +25,11 @@ class UserService {
     });
   }
 
+  /**
+   * login
+   * @param {object} payload which insludes email and password
+   * @return {promise}
+   */
   login(payload) {
     return axios({
       method: 'POST',
@@ -36,6 +41,11 @@ class UserService {
     });
   }
 
+  /**
+   * logout
+   * @param {null} none
+   * @return {promise}
+   */
   logout() {
     return axios.post(`${URL}/logout`);
   }

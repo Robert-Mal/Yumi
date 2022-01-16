@@ -194,7 +194,7 @@ import { useRouter } from 'vue-router';
 import RecipesService from '../../services/recipes.service';
 import Dialog from 'primevue/dialog';
 import { useStore } from 'vuex';
-import { useToast } from "vue-toastification";
+import { useToast } from 'vue-toastification';
 
 interface Recipe {
   _id: string;
@@ -214,7 +214,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
 
-    const store = useStore()
+    const store = useStore();
 
     const toast = useToast();
 
@@ -223,42 +223,50 @@ export default defineComponent({
     const display = ref(false);
     const name = ref('');
     const desc = ref('');
-    const tags: Ref<Array<string>>= ref([]);
+    const tags: Ref<Array<string>> = ref([]);
     const img = ref('');
     const instruction = ref('');
     const ingredients = ref('');
 
-    const localUser = localStorage.getItem('user')
+    const localUser = localStorage.getItem('user');
     const userId = store.getters.getUser?._id || JSON.parse(localUser)._id;
 
     const getRecipes = async () => {
-      await RecipesService.getRecipes(userId).then((response:any) => {
-      recipes.value = response.data;
-      }).catch((err) => {
-        console.log(err)
-      })
-    }
+      await RecipesService.getRecipes(userId)
+        .then((response: any) => {
+          recipes.value = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
     onBeforeMount(() => {
       getRecipes();
-    })
-
+    });
 
     const toggleFavourites = (recipeId: string, currentValue: boolean) => {
-      if(!recipes) return 
-      const currentRecipeIndex = recipes.value.findIndex((el:Recipe) => el._id === recipeId )
-      RecipesService.addFavourite(recipes.value[currentRecipeIndex]._id, !currentValue).then((response:any) => {
-        toast.clear();
-        toast.success("Favourite toggled succesfully", {
-          timeout: 2000
+      if (!recipes) return;
+      const currentRecipeIndex = recipes.value.findIndex(
+        (el: Recipe) => el._id === recipeId
+      );
+      RecipesService.addFavourite(
+        recipes.value[currentRecipeIndex]._id,
+        !currentValue
+      )
+        .then((response: any) => {
+          toast.clear();
+          toast.success('Favourite toggled succesfully', {
+            timeout: 2000,
+          });
+          recipes.value[currentRecipeIndex].favourite = response.data.favourite;
+        })
+        .catch((err) => {
+          toast.clear();
+          toast.error('Error: Favourite not toggled', {
+            timeout: 2000,
+          });
         });
-        recipes.value[currentRecipeIndex].favourite = response.data.favourite;
-      }).catch((err) => {
-        toast.clear();
-        toast.error("Error: Favourite not toggled", {
-          timeout: 2000
-        });
-      })
     };
 
     const addRecipe = () => (display.value = true);
@@ -292,18 +300,26 @@ export default defineComponent({
         ingredients: ingr,
       };
 
-      RecipesService.addRecipe(store.getters.getUser._id, newRecipe).then((response:any) => {
-        toast.clear();
-        toast.success("Recipe added", {
-          timeout: 2000
+      RecipesService.addRecipe(store.getters.getUser._id, newRecipe)
+        .then((response: any) => {
+          name.value = '';
+          desc.value = '';
+          tags.value = [];
+          img.value = '';
+          instruction.value = '';
+          ingredients.value = '';
+          toast.clear();
+          toast.success('Recipe added', {
+            timeout: 2000,
+          });
+          getRecipes();
+        })
+        .catch((err) => {
+          toast.clear();
+          toast.error('Error: Recipe not added', {
+            timeout: 2000,
+          });
         });
-        getRecipes();
-      }).catch((err) => {
-        toast.clear();
-        toast.error("Error: Recipe not added", {
-          timeout: 2000
-        });
-      })
     };
 
     return {
